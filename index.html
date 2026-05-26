@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login SchoolChain</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #020617, #0f172a, #1e3a8a);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .login-card {
+      width: 90%;
+      max-width: 420px;
+      background: rgba(15, 23, 42, 0.92);
+      padding: 30px;
+      border-radius: 25px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.4);
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #94a3b8;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #dbeafe;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      outline: none;
+      background: #020617;
+      color: white;
+      font-size: 14px;
+    }
+
+    input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .error {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(251, 113, 133, 0.15);
+      color: #fb7185;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .info {
+      margin-top: 18px;
+      padding: 13px;
+      border-radius: 14px;
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      background: rgba(56, 189, 248, 0.08);
+      color: #bae6fd;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-card">
+    <div class="logo">SC</div>
+
+    <h1>SchoolChain System</h1>
+
+    <p class="subtitle">
+      Login menggunakan username dan password yang sudah dibuat di Manajemen User.
+    </p>
+
+    <form id="loginForm">
+      <label>Username</label>
+      <input type="text" id="username" placeholder="Masukkan username">
+
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Masukkan password">
+
+      <button type="submit">Login</button>
+    </form>
+
+    <div id="errorBox" class="error">
+      Username atau password salah.
+    </div>
+
+    <div class="info">
+      Jika belum ada akun, Silahkan lapor ke admin.
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const errorBox = document.getElementById("errorBox");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      const savedUsers = JSON.parse(localStorage.getItem("schoolchain_users")) || [];
+
+      const user = savedUsers.find(function(item) {
+        return item.username === username && item.password === password;
+      });
+
+      if (!user) {
+        errorBox.style.display = "block";
+        errorBox.textContent = "Username atau password salah.";
+        return;
+      }
+
+      localStorage.setItem("schoolchain_login", JSON.stringify(user));
+
+      if (user.role === "Founder") {
+        window.location.href = "pages/founder.html";
+      } else if (user.role === "OSIS") {
+        window.location.href = "pages/osis.html";
+      } else if (user.role === "Guru") {
+        window.location.href = "pages/guru.html";
+      } else if (user.role === "Siswa") {
+        window.location.href = "pages/siswa.html";
+      } else if (user.role === "Wali Murid") {
+        window.location.href = "pages/wali.html";
+      } else {
+        errorBox.style.display = "block";
+        errorBox.textContent = "Role tidak dikenali.";
+      }
+    });
+  </script>
+
+</body>
+</html>
