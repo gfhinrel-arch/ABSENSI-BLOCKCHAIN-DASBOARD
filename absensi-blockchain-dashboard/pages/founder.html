@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Founder Dashboard</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #020617;
+      color: white;
+    }
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #0f172a;
+      padding: 25px;
+      border-right: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .logo {
+      width: 55px;
+      height: 55px;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    .sidebar p {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .profile-box {
+      background: rgba(30, 41, 59, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 18px;
+      padding: 15px;
+      margin-bottom: 22px;
+    }
+
+    .profile-box h3 {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .profile-box span {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .menu a {
+      display: block;
+      color: #cbd5e1;
+      text-decoration: none;
+      padding: 13px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+
+    .menu a:hover,
+    .menu a.active {
+      background: rgba(56, 189, 248, 0.15);
+      color: white;
+    }
+
+    .logout {
+      width: 100%;
+      margin-top: 25px;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(251, 113, 133, 0.15);
+      color: #fb7185;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .content {
+      flex: 1;
+      padding: 30px;
+      background:
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 30%),
+        linear-gradient(135deg, #020617, #0f172a);
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .welcome-card {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .welcome-box {
+      max-width: 850px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 28px;
+      padding: 45px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
+    }
+
+    .welcome-box h1 {
+      font-size: 44px;
+      margin-bottom: 15px;
+      letter-spacing: -1px;
+    }
+
+    .welcome-box p {
+      color: #94a3b8;
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .quick-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .quick-actions button {
+      padding: 14px 18px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .quick-actions .secondary {
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .header {
+      margin-bottom: 25px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .card p {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .card h2 {
+      font-size: 34px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 18px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      min-width: 1050px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 13px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    th {
+      color: #94a3b8;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .green {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+    }
+
+    .orange {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+    }
+
+    .blue {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+    }
+
+    .red {
+      background: rgba(251, 113, 133, 0.15);
+      color: #fb7185;
+    }
+
+    .btn {
+      margin-top: 18px;
+      padding: 13px 16px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .user-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .user-top p {
+      color: #94a3b8;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .user-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-select {
+      padding: 13px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: #020617;
+      color: white;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .user-form-box {
+      display: none;
+      background: rgba(30, 41, 59, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 22px;
+    }
+
+    .user-form-box.active {
+      display: block;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #dbeafe;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: #020617;
+      color: white;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .filter-select:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    }
+
+    .hidden-field {
+      display: none;
+    }
+
+    .hidden-field.active {
+      display: block;
+    }
+
+    .form-action {
+      display: flex;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .cancel-btn {
+      padding: 13px 16px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .edit-btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 6px;
+    }
+
+    .delete-btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(251, 113, 133, 0.15);
+      color: #fb7185;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .empty-text {
+      color: #94a3b8;
+      padding: 20px 0;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .empty-box {
+      margin-top: 15px;
+      padding: 22px;
+      border: 1px dashed rgba(148, 163, 184, 0.3);
+      border-radius: 16px;
+      color: #94a3b8;
+      font-size: 14px;
+      text-align: center;
+      background: rgba(15, 23, 42, 0.45);
+    }
+
+    .list {
+      margin-top: 15px;
+    }
+
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px;
+      background: rgba(30, 41, 59, 0.75);
+      border-radius: 14px;
+      margin-bottom: 10px;
+    }
+
+    .list-item small {
+      color: #94a3b8;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+      }
+
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome-box h1 {
+        font-size: 34px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .user-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .welcome-box {
+        padding: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="logo">SC</div>
+
+      <h2>SchoolChain</h2>
+      <p>Founder Panel</p>
+
+      <div class="profile-box">
+        <h3 id="sidebarName">Founder</h3>
+        <span id="sidebarRole">Founder</span>
+      </div>
+
+      <nav class="menu">
+        <a class="active" onclick="showPage('welcome', this)">Home</a>
+        <a onclick="showPage('overview', this)">Overview</a>
+        <a onclick="showPage('users', this)">Manajemen User</a>
+        <a onclick="showPage('attendance', this)">Rekap Absensi</a>
+        <a onclick="showPage('blockchain', this)">Blockchain Audit</a>
+        <a onclick="showPage('settings', this)">Pengaturan</a>
+      </nav>
+
+      <button class="logout" onclick="logout()">Logout</button>
+    </aside>
+
+    <main class="content">
+
+      <section id="welcome" class="page active">
+        <div class="welcome-card">
+          <div class="welcome-box">
+            <h1 id="welcomeText">Selamat datang, Founder.</h1>
+            <p>
+              Sistem masih kosong. Silakan mulai dengan menambahkan data user.
+              Username dan password yang dibuat di sini akan dipakai untuk login di halaman utama.
+            </p>
+
+            <div class="quick-actions">
+              <button onclick="showPageFromButton('users')">Tambah User</button>
+              <button onclick="showPageFromButton('overview')" class="secondary">Lihat Overview</button>
+              <button onclick="showPageFromButton('attendance')" class="secondary">Cek Rekap Absensi</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="overview" class="page">
+        <section class="header">
+          <h1>Overview Sistem</h1>
+          <p>Statistik akan terisi otomatis setelah data user dan absensi mulai dimasukkan.</p>
+        </section>
+
+        <section class="cards">
+          <div class="card">
+            <p>Total Siswa</p>
+            <h2 id="totalStudents">0</h2>
+          </div>
+
+          <div class="card">
+            <p>Hadir Hari Ini</p>
+            <h2 id="totalPresent">0</h2>
+          </div>
+
+          <div class="card">
+            <p>Terlambat</p>
+            <h2 id="totalLate">0</h2>
+          </div>
+
+          <div class="card">
+            <p>Hash Valid</p>
+            <h2 id="totalHash">0</h2>
+          </div>
+        </section>
+
+        <section class="grid">
+          <div class="card">
+            <h3>Rekap Absensi Terbaru</h3>
+            <div class="empty-box">Belum ada data absensi.</div>
+          </div>
+
+          <div class="card">
+            <h3>Status Sistem</h3>
+
+            <div class="list">
+              <div class="list-item">
+                <div>
+                  <strong>Fingerprint Device</strong><br>
+                  <small>Belum ada perangkat terdaftar</small>
+                </div>
+                <span class="badge orange">Empty</span>
+              </div>
+
+              <div class="list-item">
+                <div>
+                  <strong>Blockchain Node</strong><br>
+                  <small>Belum ada hash validasi</small>
+                </div>
+                <span class="badge orange">Empty</span>
+              </div>
+
+              <div class="list-item">
+                <div>
+                  <strong>Data Integrity</strong><br>
+                  <small>Menunggu data absensi</small>
+                </div>
+                <span class="badge orange">Empty</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="users" class="page">
+        <div class="header">
+          <h1>Manajemen User</h1>
+          <p>Kelola nama, username, password, role, jabatan, dan kelas pengguna sistem.</p>
+        </div>
+
+        <div class="card">
+          <div class="user-top">
+            <div>
+              <h3>Daftar User Sistem</h3>
+              <p>Gunakan filter untuk mencari data berdasarkan kelas atau role.</p>
+            </div>
+
+            <div class="user-actions">
+              <select id="userFilter" class="filter-select" onchange="changeUserFilter()">
+                <option value="all">Semua User</option>
+
+                <option value="kelas71">Kelas 71</option>
+                <option value="kelas72">Kelas 72</option>
+                <option value="kelas73">Kelas 73</option>
+                <option value="kelas74">Kelas 74</option>
+                <option value="kelas75">Kelas 75</option>
+
+                <option value="kelas81">Kelas 81</option>
+                <option value="kelas82">Kelas 82</option>
+                <option value="kelas83">Kelas 83</option>
+                <option value="kelas84">Kelas 84</option>
+                <option value="kelas85">Kelas 85</option>
+
+                <option value="kelas91">Kelas 91</option>
+                <option value="kelas92">Kelas 92</option>
+                <option value="kelas93">Kelas 93</option>
+                <option value="kelas94">Kelas 94</option>
+                <option value="kelas95">Kelas 95</option>
+
+                <option value="osis">OSIS</option>
+                <option value="guru">Guru</option>
+                <option value="founder">Founder</option>
+                <option value="wali">Wali Murid</option>
+              </select>
+
+              <button class="btn" onclick="openUserForm()">+ New User</button>
+            </div>
+          </div>
+
+          <div id="userFormBox" class="user-form-box">
+            <h3 id="formTitle">Tambah User Baru</h3>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nama Lengkap</label>
+                <input type="text" id="newUserName" placeholder="Masukkan nama lengkap">
+              </div>
+
+              <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="newUsername" placeholder="Masukkan username">
+              </div>
+
+              <div class="form-group">
+                <label>Password</label>
+                <input type="text" id="newPassword" placeholder="Masukkan password">
+              </div>
+
+              <div class="form-group">
+                <label>Role</label>
+                <select id="newUserRole" onchange="toggleExtraInput()">
+                  <option value="">Pilih Role</option>
+                  <option value="Founder">Founder</option>
+                  <option value="OSIS">OSIS</option>
+                  <option value="Guru">Guru</option>
+                  <option value="Siswa">Siswa</option>
+                  <option value="Wali Murid">Wali Murid</option>
+                </select>
+              </div>
+
+              <div id="positionGroup" class="form-group hidden-field">
+                <label>Jabatan</label>
+                <input type="text" id="newUserPosition" placeholder="Contoh: Ketua OSIS / Guru Matematika">
+              </div>
+
+              <div id="classGroup" class="form-group hidden-field">
+                <label>Kelas</label>
+                <select id="newUserClass">
+                  <option value="">Pilih Kelas</option>
+
+                  <option value="71">Kelas 71</option>
+                  <option value="72">Kelas 72</option>
+                  <option value="73">Kelas 73</option>
+                  <option value="74">Kelas 74</option>
+                  <option value="75">Kelas 75</option>
+
+                  <option value="81">Kelas 81</option>
+                  <option value="82">Kelas 82</option>
+                  <option value="83">Kelas 83</option>
+                  <option value="84">Kelas 84</option>
+                  <option value="85">Kelas 85</option>
+
+                  <option value="91">Kelas 91</option>
+                  <option value="92">Kelas 92</option>
+                  <option value="93">Kelas 93</option>
+                  <option value="94">Kelas 94</option>
+                  <option value="95">Kelas 95</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-action">
+              <button id="submitUserButton" class="btn" onclick="addUser()">Tambah User</button>
+              <button class="cancel-btn" onclick="closeUserForm()">Batal</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama</th>
+                  <th>Username</th>
+                  <th>Password</th>
+                  <th>Role</th>
+                  <th>Jabatan</th>
+                  <th>Kelas</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+
+              <tbody id="userTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="attendance" class="page">
+        <div class="header">
+          <h1>Rekap Absensi</h1>
+          <p>Data absensi akan muncul setelah sistem absensi mulai digunakan.</p>
+        </div>
+
+        <div class="card">
+          <h3>Data Absensi</h3>
+          <div class="empty-box">Belum ada data absensi.</div>
+        </div>
+      </section>
+
+      <section id="blockchain" class="page">
+        <div class="header">
+          <h1>Blockchain Audit</h1>
+          <p>Data hash akan muncul setelah absensi berhasil divalidasi.</p>
+        </div>
+
+        <div class="card">
+          <h3>Data Hash Blockchain</h3>
+          <div class="empty-box">Belum ada hash blockchain.</div>
+        </div>
+      </section>
+
+      <section id="settings" class="page">
+        <div class="header">
+          <h1>Pengaturan</h1>
+          <p>Pengaturan sistem dan hak akses akan dikembangkan pada tahap berikutnya.</p>
+        </div>
+
+        <div class="card">
+          <h3>Status Pengaturan</h3>
+          <div class="empty-box">Belum ada pengaturan tambahan.</div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <script>
+    let userList = JSON.parse(localStorage.getItem("schoolchain_users")) || [];
+    const attendanceList = [];
+    let editIndex = null;
+    let currentFilter = "all";
+
+    const loggedUser = JSON.parse(localStorage.getItem("schoolchain_login"));
+
+    if (loggedUser) {
+      document.getElementById("sidebarName").textContent = loggedUser.name;
+      document.getElementById("sidebarRole").textContent = loggedUser.role;
+      document.getElementById("welcomeText").textContent = "Selamat datang, " + loggedUser.name + ".";
+    }
+
+    function saveUsers() {
+      localStorage.setItem("schoolchain_users", JSON.stringify(userList));
+    }
+
+    function openUserForm() {
+      document.getElementById("userFormBox").classList.add("active");
+      document.getElementById("formTitle").textContent = "Tambah User Baru";
+      document.getElementById("submitUserButton").textContent = "Tambah User";
+    }
+
+    function closeUserForm() {
+      document.getElementById("userFormBox").classList.remove("active");
+
+      document.getElementById("newUserName").value = "";
+      document.getElementById("newUsername").value = "";
+      document.getElementById("newPassword").value = "";
+      document.getElementById("newUserRole").value = "";
+      document.getElementById("newUserPosition").value = "";
+      document.getElementById("newUserClass").value = "";
+
+      document.getElementById("positionGroup").classList.remove("active");
+      document.getElementById("classGroup").classList.remove("active");
+
+      document.getElementById("formTitle").textContent = "Tambah User Baru";
+      document.getElementById("submitUserButton").textContent = "Tambah User";
+
+      editIndex = null;
+    }
+
+    function toggleExtraInput() {
+      const role = document.getElementById("newUserRole").value;
+      const positionGroup = document.getElementById("positionGroup");
+      const classGroup = document.getElementById("classGroup");
+
+      if (role === "OSIS" || role === "Guru") {
+        positionGroup.classList.add("active");
+      } else {
+        positionGroup.classList.remove("active");
+        document.getElementById("newUserPosition").value = "";
+      }
+
+      if (role === "Siswa") {
+        classGroup.classList.add("active");
+      } else {
+        classGroup.classList.remove("active");
+        document.getElementById("newUserClass").value = "";
+      }
+    }
+
+    function getRoleBadgeColor(role) {
+      if (role === "Founder") return "blue";
+      if (role === "OSIS") return "green";
+      if (role === "Guru") return "orange";
+      if (role === "Siswa") return "blue";
+      if (role === "Wali Murid") return "green";
+      return "blue";
+    }
+
+    function getFilteredUsers() {
+      if (currentFilter === "all") {
+        return userList;
+      }
+
+      if (currentFilter.startsWith("kelas")) {
+        const selectedClass = currentFilter.replace("kelas", "");
+
+        return userList.filter(function(user) {
+          return user.role === "Siswa" && user.classLevel === selectedClass;
+        });
+      }
+
+      if (currentFilter === "osis") {
+        return userList.filter(function(user) {
+          return user.role === "OSIS";
+        });
+      }
+
+      if (currentFilter === "guru") {
+        return userList.filter(function(user) {
+          return user.role === "Guru";
+        });
+      }
+
+      if (currentFilter === "founder") {
+        return userList.filter(function(user) {
+          return user.role === "Founder";
+        });
+      }
+
+      if (currentFilter === "wali") {
+        return userList.filter(function(user) {
+          return user.role === "Wali Murid";
+        });
+      }
+
+      return userList;
+    }
+
+    function changeUserFilter() {
+      currentFilter = document.getElementById("userFilter").value;
+      renderUserTable();
+    }
+
+    function renderUserTable() {
+      const tableBody = document.getElementById("userTableBody");
+      const filteredUsers = getFilteredUsers();
+
+      tableBody.innerHTML = "";
+
+      if (filteredUsers.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="9" class="empty-text">
+              Tidak ada data pada filter ini.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      filteredUsers.forEach(function(user, index) {
+        const realIndex = userList.indexOf(user);
+        const positionText = user.position && user.position !== "" ? user.position : "-";
+        const classText = user.classLevel && user.classLevel !== "" ? "Kelas " + user.classLevel : "-";
+
+        tableBody.innerHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${user.name}</td>
+            <td>${user.username}</td>
+            <td>${user.password}</td>
+            <td><span class="badge ${getRoleBadgeColor(user.role)}">${user.role}</span></td>
+            <td>${positionText}</td>
+            <td>${classText}</td>
+            <td><span class="badge green">${user.status}</span></td>
+            <td>
+              <button class="edit-btn" onclick="editUser(${realIndex})">Edit</button>
+              <button class="delete-btn" onclick="deleteUser(${realIndex})">Hapus</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function addUser() {
+      const name = document.getElementById("newUserName").value.trim();
+      const username = document.getElementById("newUsername").value.trim();
+      const password = document.getElementById("newPassword").value.trim();
+      const role = document.getElementById("newUserRole").value;
+      const position = document.getElementById("newUserPosition").value.trim();
+      const classLevel = document.getElementById("newUserClass").value;
+
+      if (name === "" || username === "" || password === "" || role === "") {
+        alert("Nama, username, password, dan role wajib diisi.");
+        return;
+      }
+
+      if ((role === "OSIS" || role === "Guru") && position === "") {
+        alert("Jabatan wajib diisi untuk role OSIS dan Guru.");
+        return;
+      }
+
+      if (role === "Siswa" && classLevel === "") {
+        alert("Kelas wajib diisi untuk role Siswa.");
+        return;
+      }
+
+      const usernameExists = userList.some(function(user, index) {
+        return user.username === username && index !== editIndex;
+      });
+
+      if (usernameExists) {
+        alert("Username sudah dipakai. Gunakan username lain.");
+        return;
+      }
+
+      if (editIndex === null) {
+        userList.push({
+          name: name,
+          username: username,
+          password: password,
+          role: role,
+          position: position,
+          classLevel: classLevel,
+          status: "Aktif"
+        });
+
+        alert("User berhasil ditambahkan.");
+      } else {
+        userList[editIndex] = {
+          name: name,
+          username: username,
+          password: password,
+          role: role,
+          position: position,
+          classLevel: classLevel,
+          status: "Aktif"
+        };
+
+        alert("User berhasil diperbarui.");
+      }
+
+      saveUsers();
+      renderUserTable();
+      updateOverviewStats();
+      closeUserForm();
+    }
+
+    function editUser(index) {
+      const user = userList[index];
+
+      editIndex = index;
+
+      document.getElementById("newUserName").value = user.name;
+      document.getElementById("newUsername").value = user.username;
+      document.getElementById("newPassword").value = user.password;
+      document.getElementById("newUserRole").value = user.role;
+      document.getElementById("newUserPosition").value = user.position || "";
+      document.getElementById("newUserClass").value = user.classLevel || "";
+
+      toggleExtraInput();
+
+      document.getElementById("userFormBox").classList.add("active");
+      document.getElementById("formTitle").textContent = "Edit User";
+      document.getElementById("submitUserButton").textContent = "Update User";
+    }
+
+    function deleteUser(index) {
+      const yakin = confirm("Yakin ingin menghapus user ini?");
+
+      if (yakin) {
+        userList.splice(index, 1);
+        saveUsers();
+        renderUserTable();
+        updateOverviewStats();
+      }
+    }
+
+    function updateOverviewStats() {
+      const totalStudents = userList.filter(function(user) {
+        return user.role === "Siswa";
+      }).length;
+
+      const totalPresent = attendanceList.filter(function(item) {
+        return item.status === "Hadir";
+      }).length;
+
+      const totalLate = attendanceList.filter(function(item) {
+        return item.status === "Terlambat";
+      }).length;
+
+      const totalHash = attendanceList.filter(function(item) {
+        return item.hash && item.hash !== "";
+      }).length;
+
+      document.getElementById("totalStudents").textContent = totalStudents;
+      document.getElementById("totalPresent").textContent = totalPresent;
+      document.getElementById("totalLate").textContent = totalLate;
+      document.getElementById("totalHash").textContent = totalHash;
+    }
+
+    function showPage(pageId, menuItem) {
+      const pages = document.querySelectorAll(".page");
+      pages.forEach(function(page) {
+        page.classList.remove("active");
+      });
+
+      document.getElementById(pageId).classList.add("active");
+
+      const menus = document.querySelectorAll(".menu a");
+      menus.forEach(function(menu) {
+        menu.classList.remove("active");
+      });
+
+      menuItem.classList.add("active");
+    }
+
+    function showPageFromButton(pageId) {
+      const pages = document.querySelectorAll(".page");
+      pages.forEach(function(page) {
+        page.classList.remove("active");
+      });
+
+      document.getElementById(pageId).classList.add("active");
+
+      const menus = document.querySelectorAll(".menu a");
+      menus.forEach(function(menu) {
+        menu.classList.remove("active");
+
+        if (menu.textContent.trim() === "Overview" && pageId === "overview") {
+          menu.classList.add("active");
+        }
+
+        if (menu.textContent.trim() === "Manajemen User" && pageId === "users") {
+          menu.classList.add("active");
+        }
+
+        if (menu.textContent.trim() === "Rekap Absensi" && pageId === "attendance") {
+          menu.classList.add("active");
+        }
+
+        if (menu.textContent.trim() === "Blockchain Audit" && pageId === "blockchain") {
+          menu.classList.add("active");
+        }
+      });
+    }
+
+    function logout() {
+      localStorage.removeItem("schoolchain_login");
+      window.location.href = "../index.html";
+    }
+
+    renderUserTable();
+    updateOverviewStats();
+  </script>
+
+</body>
+</html>
