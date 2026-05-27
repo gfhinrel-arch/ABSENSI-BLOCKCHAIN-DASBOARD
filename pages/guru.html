@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guru Dashboard</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #020617;
+      color: white;
+    }
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #0f172a;
+      padding: 25px;
+      border-right: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .logo {
+      width: 55px;
+      height: 55px;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    .sidebar p {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .profile-box {
+      background: rgba(30, 41, 59, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 18px;
+      padding: 15px;
+      margin-bottom: 22px;
+    }
+
+    .profile-box h3 {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .profile-box span {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      font-size: 12px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .position-text {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .menu a {
+      display: block;
+      color: #cbd5e1;
+      text-decoration: none;
+      padding: 13px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+
+    .menu a:hover,
+    .menu a.active {
+      background: rgba(56, 189, 248, 0.15);
+      color: white;
+    }
+
+    .logout {
+      width: 100%;
+      margin-top: 25px;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(251, 113, 133, 0.15);
+      color: #fb7185;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .content {
+      flex: 1;
+      padding: 30px;
+      background:
+        radial-gradient(circle at top right, rgba(245, 158, 11, 0.12), transparent 30%),
+        linear-gradient(135deg, #020617, #0f172a);
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .welcome-card {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .welcome-box {
+      max-width: 850px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 28px;
+      padding: 45px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
+    }
+
+    .welcome-box h1 {
+      font-size: 44px;
+      margin-bottom: 15px;
+      letter-spacing: -1px;
+    }
+
+    .welcome-box p {
+      color: #94a3b8;
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .quick-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .quick-actions button {
+      padding: 14px 18px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #d97706, #38bdf8);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .quick-actions .secondary {
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .header {
+      margin-bottom: 25px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .card p {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .card h2 {
+      font-size: 34px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+    }
+
+    .btn {
+      margin-top: 18px;
+      padding: 13px 16px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #d97706, #38bdf8);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .filter-select {
+      padding: 13px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: #020617;
+      color: white;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .form-box {
+      display: none;
+      background: rgba(30, 41, 59, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 22px;
+    }
+
+    .form-box.active {
+      display: block;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #dbeafe;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea,
+    .filter-select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: #020617;
+      color: white;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus,
+    .filter-select:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    }
+
+    .form-action {
+      display: flex;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .cancel-btn {
+      padding: 13px 16px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .edit-btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 6px;
+    }
+
+    .delete-btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(251, 113, 133, 0.15);
+      color: #fb7185;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .green {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+    }
+
+    .orange {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+    }
+
+    .blue {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+    }
+
+    .red {
+      background: rgba(251, 113, 133, 0.15);
+      color: #fb7185;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 850px;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 13px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    th {
+      color: #94a3b8;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .empty-box {
+      margin-top: 15px;
+      padding: 22px;
+      border: 1px dashed rgba(148, 163, 184, 0.3);
+      border-radius: 16px;
+      color: #94a3b8;
+      font-size: 14px;
+      text-align: center;
+      background: rgba(15, 23, 42, 0.45);
+    }
+
+    .empty-text {
+      color: #94a3b8;
+      padding: 20px 0;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .list {
+      margin-top: 15px;
+    }
+
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px;
+      background: rgba(30, 41, 59, 0.75);
+      border-radius: 14px;
+      margin-bottom: 10px;
+    }
+
+    .list-item small {
+      color: #94a3b8;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+      }
+
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome-box h1 {
+        font-size: 34px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .welcome-box {
+        padding: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="logo">SC</div>
+
+      <h2>SchoolChain</h2>
+      <p>Guru Panel</p>
+
+      <div class="profile-box">
+        <h3 id="sidebarName">Guru</h3>
+        <span id="sidebarRole">Guru</span>
+        <div id="sidebarPosition" class="position-text">Jabatan Guru</div>
+      </div>
+
+      <nav class="menu">
+        <a class="active" onclick="showPage('welcome', this)">Home</a>
+        <a onclick="showPage('overview', this)">Overview</a>
+        <a onclick="showPage('students', this)">Data Siswa</a>
+        <a onclick="showPage('attendance', this)">Rekap Absensi</a>
+        <a onclick="showPage('notes', this)">Catatan Siswa</a>
+        <a onclick="showPage('blockchain', this)">Blockchain Audit</a>
+      </nav>
+
+      <button class="logout" onclick="logout()">Logout</button>
+    </aside>
+
+    <main class="content">
+
+      <section id="welcome" class="page active">
+        <div class="welcome-card">
+          <div class="welcome-box">
+            <h1 id="welcomeText">Selamat datang, Guru.</h1>
+            <p>
+              Panel ini digunakan untuk memantau data siswa, rekap absensi, dan catatan akademik/kedisiplinan siswa.
+            </p>
+
+            <div class="quick-actions">
+              <button onclick="showPageFromButton('students')">Lihat Data Siswa</button>
+              <button onclick="showPageFromButton('attendance')" class="secondary">Cek Absensi</button>
+              <button onclick="showPageFromButton('notes')" class="secondary">Catatan Siswa</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="overview" class="page">
+        <div class="header">
+          <h1>Overview Guru</h1>
+          <p>Ringkasan data siswa dan pemantauan absensi.</p>
+        </div>
+
+        <section class="cards">
+          <div class="card">
+            <p>Total Siswa</p>
+            <h2 id="totalStudents">0</h2>
+          </div>
+
+          <div class="card">
+            <p>Hadir Hari Ini</p>
+            <h2 id="totalPresent">0</h2>
+          </div>
+
+          <div class="card">
+            <p>Terlambat</p>
+            <h2 id="totalLate">0</h2>
+          </div>
+
+          <div class="card">
+            <p>Catatan Siswa</p>
+            <h2 id="totalNotes">0</h2>
+          </div>
+        </section>
+
+        <section class="grid">
+          <div class="card">
+            <h3>Data Siswa</h3>
+            <div id="overviewStudentBox" class="empty-box">
+              Belum ada data siswa.
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Status Guru</h3>
+
+            <div class="list">
+              <div class="list-item">
+                <div>
+                  <strong>Student Monitoring</strong><br>
+                  <small>Menunggu data siswa</small>
+                </div>
+                <span class="badge orange">Empty</span>
+              </div>
+
+              <div class="list-item">
+                <div>
+                  <strong>Attendance Review</strong><br>
+                  <small>Belum ada data absensi</small>
+                </div>
+                <span class="badge orange">Empty</span>
+              </div>
+
+              <div class="list-item">
+                <div>
+                  <strong>Teacher Note</strong><br>
+                  <small>Belum ada catatan</small>
+                </div>
+                <span class="badge orange">Empty</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="students" class="page">
+        <div class="header">
+          <h1>Data Siswa</h1>
+          <p>Data siswa diambil dari user role Siswa yang sudah dibuat oleh Founder.</p>
+        </div>
+
+        <div class="card">
+          <div class="filter-row">
+            <select id="studentFilter" class="filter-select" onchange="changeStudentFilter()">
+              <option value="all">Semua Siswa</option>
+
+              <option value="71">Kelas 71</option>
+              <option value="72">Kelas 72</option>
+              <option value="73">Kelas 73</option>
+              <option value="74">Kelas 74</option>
+              <option value="75">Kelas 75</option>
+
+              <option value="81">Kelas 81</option>
+              <option value="82">Kelas 82</option>
+              <option value="83">Kelas 83</option>
+              <option value="84">Kelas 84</option>
+              <option value="85">Kelas 85</option>
+
+              <option value="91">Kelas 91</option>
+              <option value="92">Kelas 92</option>
+              <option value="93">Kelas 93</option>
+              <option value="94">Kelas 94</option>
+              <option value="95">Kelas 95</option>
+            </select>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama</th>
+                  <th>Username</th>
+                  <th>Kelas</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+
+              <tbody id="studentTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="attendance" class="page">
+        <div class="header">
+          <h1>Rekap Absensi</h1>
+          <p>Data absensi siswa akan muncul setelah sistem absensi digunakan.</p>
+        </div>
+
+        <div class="card">
+          <h3>Data Absensi</h3>
+          <div class="empty-box">
+            Belum ada data absensi siswa.
+          </div>
+        </div>
+      </section>
+
+      <section id="notes" class="page">
+        <div class="header">
+          <h1>Catatan Siswa</h1>
+          <p>Guru dapat membuat catatan sederhana untuk pemantauan siswa.</p>
+        </div>
+
+        <div class="card">
+          <div class="filter-row">
+            <button class="btn" onclick="openNoteForm()">+ New Catatan</button>
+          </div>
+
+          <div id="noteFormBox" class="form-box">
+            <h3 id="noteFormTitle">Tambah Catatan Siswa</h3>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nama Siswa</label>
+                <input type="text" id="noteStudentName" placeholder="Masukkan nama siswa">
+              </div>
+
+              <div class="form-group">
+                <label>Kelas</label>
+                <select id="noteClass">
+                  <option value="">Pilih Kelas</option>
+
+                  <option value="71">Kelas 71</option>
+                  <option value="72">Kelas 72</option>
+                  <option value="73">Kelas 73</option>
+                  <option value="74">Kelas 74</option>
+                  <option value="75">Kelas 75</option>
+
+                  <option value="81">Kelas 81</option>
+                  <option value="82">Kelas 82</option>
+                  <option value="83">Kelas 83</option>
+                  <option value="84">Kelas 84</option>
+                  <option value="85">Kelas 85</option>
+
+                  <option value="91">Kelas 91</option>
+                  <option value="92">Kelas 92</option>
+                  <option value="93">Kelas 93</option>
+                  <option value="94">Kelas 94</option>
+                  <option value="95">Kelas 95</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Jenis Catatan</label>
+                <select id="noteType">
+                  <option value="">Pilih Jenis</option>
+                  <option value="Akademik">Akademik</option>
+                  <option value="Kedisiplinan">Kedisiplinan</option>
+                  <option value="Kehadiran">Kehadiran</option>
+                  <option value="Lainnya">Lainnya</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Tanggal</label>
+                <input type="date" id="noteDate">
+              </div>
+
+              <div class="form-group">
+                <label>Isi Catatan</label>
+                <textarea id="noteText" placeholder="Tulis catatan siswa"></textarea>
+              </div>
+            </div>
+
+            <div class="form-action">
+              <button id="submitNoteButton" class="btn" onclick="addNote()">Tambah Catatan</button>
+              <button class="cancel-btn" onclick="closeNoteForm()">Batal</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama Siswa</th>
+                  <th>Kelas</th>
+                  <th>Jenis</th>
+                  <th>Tanggal</th>
+                  <th>Catatan</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+
+              <tbody id="noteTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="blockchain" class="page">
+        <div class="header">
+          <h1>Blockchain Audit</h1>
+          <p>Data hash akan muncul setelah absensi berhasil divalidasi.</p>
+        </div>
+
+        <div class="card">
+          <h3>Hash Validasi</h3>
+          <div class="empty-box">
+            Belum ada hash blockchain.
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <script>
+    const loggedUser = JSON.parse(localStorage.getItem("schoolchain_login"));
+
+    if (!loggedUser) {
+      window.location.href = "../index.html";
+    }
+
+    if (loggedUser && loggedUser.role !== "Guru") {
+      alert("Akses ditolak. Halaman ini khusus Guru.");
+      window.location.href = "../index.html";
+    }
+
+    if (loggedUser) {
+      document.getElementById("sidebarName").textContent = loggedUser.name;
+      document.getElementById("sidebarRole").textContent = loggedUser.role;
+      document.getElementById("sidebarPosition").textContent = loggedUser.position || "Guru";
+      document.getElementById("welcomeText").textContent = "Selamat datang, " + loggedUser.name + ".";
+    }
+
+    let userList = JSON.parse(localStorage.getItem("schoolchain_users")) || [];
+    let noteList = JSON.parse(localStorage.getItem("schoolchain_notes")) || [];
+    let currentStudentFilter = "all";
+    let editNoteIndex = null;
+
+    function getStudents() {
+      return userList.filter(function(user) {
+        return user.role === "Siswa";
+      });
+    }
+
+    function getFilteredStudents() {
+      const students = getStudents();
+
+      if (currentStudentFilter === "all") {
+        return students;
+      }
+
+      return students.filter(function(student) {
+        return student.classLevel === currentStudentFilter;
+      });
+    }
+
+    function changeStudentFilter() {
+      currentStudentFilter = document.getElementById("studentFilter").value;
+      renderStudentTable();
+    }
+
+    function renderStudentTable() {
+      const tableBody = document.getElementById("studentTableBody");
+      const students = getFilteredStudents();
+
+      tableBody.innerHTML = "";
+
+      if (students.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="5" class="empty-text">
+              Tidak ada data siswa pada filter ini.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      students.forEach(function(student, index) {
+        tableBody.innerHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${student.name}</td>
+            <td>${student.username}</td>
+            <td>${student.classLevel ? "Kelas " + student.classLevel : "-"}</td>
+            <td><span class="badge green">${student.status || "Aktif"}</span></td>
+          </tr>
+        `;
+      });
+    }
+
+    function saveNotes() {
+      localStorage.setItem("schoolchain_notes", JSON.stringify(noteList));
+    }
+
+    function openNoteForm() {
+      document.getElementById("noteFormBox").classList.add("active");
+      document.getElementById("noteFormTitle").textContent = "Tambah Catatan Siswa";
+      document.getElementById("submitNoteButton").textContent = "Tambah Catatan";
+    }
+
+    function closeNoteForm() {
+      document.getElementById("noteFormBox").classList.remove("active");
+
+      document.getElementById("noteStudentName").value = "";
+      document.getElementById("noteClass").value = "";
+      document.getElementById("noteType").value = "";
+      document.getElementById("noteDate").value = "";
+      document.getElementById("noteText").value = "";
+
+      document.getElementById("noteFormTitle").textContent = "Tambah Catatan Siswa";
+      document.getElementById("submitNoteButton").textContent = "Tambah Catatan";
+
+      editNoteIndex = null;
+    }
+
+    function renderNoteTable() {
+      const tableBody = document.getElementById("noteTableBody");
+      tableBody.innerHTML = "";
+
+      if (noteList.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="7" class="empty-text">
+              Belum ada catatan siswa.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      noteList.forEach(function(note, index) {
+        tableBody.innerHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${note.studentName}</td>
+            <td>Kelas ${note.classLevel}</td>
+            <td><span class="badge blue">${note.type}</span></td>
+            <td>${note.date}</td>
+            <td>${note.text}</td>
+            <td>
+              <button class="edit-btn" onclick="editNote(${index})">Edit</button>
+              <button class="delete-btn" onclick="deleteNote(${index})">Hapus</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function addNote() {
+      const studentName = document.getElementById("noteStudentName").value.trim();
+      const classLevel = document.getElementById("noteClass").value;
+      const type = document.getElementById("noteType").value;
+      const date = document.getElementById("noteDate").value;
+      const text = document.getElementById("noteText").value.trim();
+
+      if (studentName === "" || classLevel === "" || type === "" || date === "" || text === "") {
+        alert("Semua data catatan wajib diisi.");
+        return;
+      }
+
+      if (editNoteIndex === null) {
+        noteList.push({
+          studentName: studentName,
+          classLevel: classLevel,
+          type: type,
+          date: date,
+          text: text
+        });
+
+        alert("Catatan berhasil ditambahkan.");
+      } else {
+        noteList[editNoteIndex] = {
+          studentName: studentName,
+          classLevel: classLevel,
+          type: type,
+          date: date,
+          text: text
+        };
+
+        alert("Catatan berhasil diperbarui.");
+      }
+
+      saveNotes();
+      renderNoteTable();
+      updateOverviewStats();
+      closeNoteForm();
+    }
+
+    function editNote(index) {
+      const note = noteList[index];
+
+      editNoteIndex = index;
+
+      document.getElementById("noteStudentName").value = note.studentName;
+      document.getElementById("noteClass").value = note.classLevel;
+      document.getElementById("noteType").value = note.type;
+      document.getElementById("noteDate").value = note.date;
+      document.getElementById("noteText").value = note.text;
+
+      document.getElementById("noteFormBox").classList.add("active");
+      document.getElementById("noteFormTitle").textContent = "Edit Catatan Siswa";
+      document.getElementById("submitNoteButton").textContent = "Update Catatan";
+    }
+
+    function deleteNote(index) {
+      const yakin = confirm("Yakin ingin menghapus catatan ini?");
+
+      if (yakin) {
+        noteList.splice(index, 1);
+        saveNotes();
+        renderNoteTable();
+        updateOverviewStats();
+      }
+    }
+
+    function updateOverviewStats() {
+      const totalStudents = getStudents().length;
+
+      document.getElementById("totalStudents").textContent = totalStudents;
+      document.getElementById("totalPresent").textContent = 0;
+      document.getElementById("totalLate").textContent = 0;
+      document.getElementById("totalNotes").textContent = noteList.length;
+
+      const overviewStudentBox = document.getElementById("overviewStudentBox");
+
+      if (totalStudents === 0) {
+        overviewStudentBox.className = "empty-box";
+        overviewStudentBox.innerHTML = "Belum ada data siswa.";
+        return;
+      }
+
+      const latestStudent = getStudents()[getStudents().length - 1];
+
+      overviewStudentBox.className = "list";
+      overviewStudentBox.innerHTML = `
+        <div class="list-item">
+          <div>
+            <strong>${latestStudent.name}</strong><br>
+            <small>${latestStudent.classLevel ? "Kelas " + latestStudent.classLevel : "Kelas belum diatur"}</small>
+          </div>
+          <span class="badge green">${latestStudent.status || "Aktif"}</span>
+        </div>
+      `;
+    }
+
+    function showPage(pageId, menuItem) {
+      const pages = document.querySelectorAll(".page");
+
+      pages.forEach(function(page) {
+        page.classList.remove("active");
+      });
+
+      document.getElementById(pageId).classList.add("active");
+
+      const menus = document.querySelectorAll(".menu a");
+
+      menus.forEach(function(menu) {
+        menu.classList.remove("active");
+      });
+
+      menuItem.classList.add("active");
+
+      if (pageId === "students") {
+        userList = JSON.parse(localStorage.getItem("schoolchain_users")) || [];
+        renderStudentTable();
+        updateOverviewStats();
+      }
+    }
+
+    function showPageFromButton(pageId) {
+      const pages = document.querySelectorAll(".page");
+
+      pages.forEach(function(page) {
+        page.classList.remove("active");
+      });
+
+      document.getElementById(pageId).classList.add("active");
+
+      const menus = document.querySelectorAll(".menu a");
+
+      menus.forEach(function(menu) {
+        menu.classList.remove("active");
+
+        if (menu.textContent.trim() === "Overview" && pageId === "overview") {
+          menu.classList.add("active");
+        }
+
+        if (menu.textContent.trim() === "Data Siswa" && pageId === "students") {
+          menu.classList.add("active");
+        }
+
+        if (menu.textContent.trim() === "Rekap Absensi" && pageId === "attendance") {
+          menu.classList.add("active");
+        }
+
+        if (menu.textContent.trim() === "Catatan Siswa" && pageId === "notes") {
+          menu.classList.add("active");
+        }
+
+        if (menu.textContent.trim() === "Blockchain Audit" && pageId === "blockchain") {
+          menu.classList.add("active");
+        }
+      });
+
+      if (pageId === "students") {
+        userList = JSON.parse(localStorage.getItem("schoolchain_users")) || [];
+        renderStudentTable();
+        updateOverviewStats();
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("schoolchain_login");
+      window.location.href = "../index.html";
+    }
+
+    renderStudentTable();
+    renderNoteTable();
+    updateOverviewStats();
+  </script>
+
+</body>
+</html>
